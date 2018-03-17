@@ -8,35 +8,34 @@ newProvR = 0;
 newProvG = 0;
 newProvB = 0;
 
-class province(object):
-    def __init__(self, name, adjName, r, g, b, num):
-        self.name = name;
-        self.adjName = adjName;
-        self.r = r;
-        self.g = g;
-        self.b = b;
-        self.num = num;
+####### Add to definition.csv
 
-def findProvinceDetails():
-    newProvName = input("Name: ");
-    newProvAdjName = input("Name adjective: ");
-    newProvR = int(input("Red: "));
-    newProvG = int(input("Green: "));
-    newProvB = int(input("Blue: "));
-
-def getProvinceNum():
-    with open(definitionFile) as f:
-        for i, l in enumerate(f):
-            pass
-    return i + 1
-
-def initializeProvince():
-    newProv = province(newProvName, newProvAdjName, newProvR, newProvG, newProvB, getProvinceNum());
-    with open('definitionFile','a+') as f:
-        f.write(str(newProv.num) + ";" + str(newProv.r) + ";" + str(newProv.g) + ";" + str(newProv.b) + ";" + newProv.name + ";x");
-    f.close();
+newProvName = input("Name: ");
+newProvAdjName = input("Name adjective: ");
+newProvR = input("Red: ");
+newProvG = input("Green: ");
+newProvB = input("Blue: ");
 
 
-findProvinceDetails();
-getProvinceNum();
-initializeProvince();
+with open(definitionFile) as f:
+    for i, l in enumerate(f):
+        pass
+provinceNum = i + 1;
+
+
+#print(str(provinceNum) + ";" + str(newProvR) + ";" + str(newProvG) + ";" + str(newProvB) + ";" + newProvName + ";x");
+with open(definitionFile,'a') as f:
+    f.write("\n" + str(provinceNum) + ";" + str(newProvR) + ";" + str(newProvG) + ";" + str(newProvB) + ";" + newProvName + ";x");
+
+####### Add to default.map
+
+with open(defaultFile, 'r') as f:
+    x = f.readlines();
+
+y = len(x[3]);
+x[3] = x[3][0:16] + str(provinceNum + 1) + '\n';
+
+#print(x[1]);
+
+with open(defaultFile, 'r+') as f:
+    f.writelines(x);
