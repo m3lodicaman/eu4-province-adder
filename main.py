@@ -1,14 +1,12 @@
 
-import random;
-
-defintionFile = "C:/Program Files (x86)/Steam/steamapps/common/Europa Universalis IV/mod/province_program/map/definition.csv";
+definitionFile = "C:/Program Files (x86)/Steam/steamapps/common/Europa Universalis IV/mod/province_program/map/definition.csv";
 defaultFile = "C:/Program Files (x86)/Steam/steamapps/common/Europa Universalis IV/mod/province_program/map/default.map"
 
-newProvName;
-newProvAdjName;
-newProvR;
-newProvG;
-newProvB;
+newProvName = "";
+newProvAdjName  = "";
+newProvR = 0;
+newProvG = 0;
+newProvB = 0;
 
 class province(object):
     def __init__(self, name, adjName, r, g, b, num):
@@ -19,12 +17,12 @@ class province(object):
         self.b = b;
         self.num = num;
 
-def findProvinceDetails(name, adjName, r, g, b):
-    newProvName = name;
-    newProvAdjName = adjName;
-    newProvR = r;
-    newProvG = g;
-    newProvB = b;
+def findProvinceDetails():
+    newProvName = input("Name: ");
+    newProvAdjName = input("Name adjective: ");
+    newProvR = int(input("Red: "));
+    newProvG = int(input("Green: "));
+    newProvB = int(input("Blue: "));
 
 def getProvinceNum():
     with open(definitionFile) as f:
@@ -32,12 +30,13 @@ def getProvinceNum():
             pass
     return i + 1
 
+def initializeProvince():
+    newProv = province(newProvName, newProvAdjName, newProvR, newProvG, newProvB, getProvinceNum());
+    with open('definitionFile','a+') as f:
+        f.write(str(newProv.num) + ";" + str(newProv.r) + ";" + str(newProv.g) + ";" + str(newProv.b) + ";" + newProv.name + ";x");
+    f.close();
 
-with open(outputFile, 'r') as f:
-    x = f.readlines();
 
-y = len(x[1]);
-x[1] = x[1][0:(y-1)]
-
-with open(outputFile, 'r+') as f:
-    f.writelines(x);
+findProvinceDetails();
+getProvinceNum();
+initializeProvince();
